@@ -26,7 +26,11 @@ for (var i = 0; i < words.length; i++) {
 
 function addWord(word) {
     var sentenceTillNow = document.getElementsByClassName("textSentence")[0].textContent;
-    document.getElementsByClassName("textSentence")[0].textContent = sentenceTillNow + word + " ";
+    if (wordsUptillNow == words.length - 1)
+        document.getElementsByClassName("textSentence")[0].textContent = sentenceTillNow + word;
+    else
+        document.getElementsByClassName("textSentence")[0].textContent = sentenceTillNow + word + " ";
+
     wordsUptillNow++;
 }
 
@@ -64,7 +68,7 @@ function refresh() {
 }
 
 function checkWord(sentence) {
-    if (sentence === "HE IS PLAYING ")
+    if (sentence === "HE IS PLAYING")
         correctAns();
     else
         wrongAns();
