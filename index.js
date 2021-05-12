@@ -1,70 +1,26 @@
-var words = document.querySelectorAll(".word");
+var totalWords = 3;
 var wordsUptillNow = 0;
-var Ans = false;
-
-document.getElementsByClassName("checkButton")[0].addEventListener("click", function () {
-    document.getElementsByClassName("checkButton")[0].disabled = true;
-    if (wordsUptillNow == words.length) {
-        var sentence = document.getElementsByClassName("textSentence")[0].textContent;
-        checkWord(sentence);
-    } else {
-        wrongAns();
-    }
-
-    document.getElementsByClassName("refresh")[0].classList.remove("hide");
-})
-
-document.getElementsByClassName("refresh")[0].addEventListener("click", refresh);
-
-for (var i = 0; i < words.length; i++) {
-    words[i].addEventListener("click", function () {
-        if (wordsUptillNow < words.length)
-            addWord(this.textContent);
-        this.disabled = true;
-    })
-}
+var ans = false;
 
 function addWord(word) {
-    var sentenceTillNow = document.getElementsByClassName("textSentence")[0].textContent;
-    if (wordsUptillNow == words.length - 1)
-        document.getElementsByClassName("textSentence")[0].textContent = sentenceTillNow + word;
+    var sentenceTillNow = $(".textSentence").text();
+
+    if (wordsUptillNow === totalWords - 1)
+        $(".textSentence").text(sentenceTillNow + word);
     else
-        document.getElementsByClassName("textSentence")[0].textContent = sentenceTillNow + word + " ";
+        $(".textSentence").text(sentenceTillNow + word + " ");
 
     wordsUptillNow++;
 }
 
 function correctAns() {
-    console.log("yes");
-    Ans = true;
-    document.getElementsByClassName("correct")[0].classList.remove("hide");
+    ans = true;
+    $(".correct").removeClass("hide");
 }
 
 function wrongAns() {
-    Ans = false;
-    console.log("no");
-    document.getElementsByClassName("wrong")[0].classList.remove("hide");
-
-}
-
-function refresh() {
-
-    for (var i = 0; i < words.length; i++) {
-        words[i].disabled = false;
-    }
-
-    document.getElementsByClassName("checkButton")[0].disabled = false;
-
-    document.getElementsByClassName("refresh")[0].classList.add("hide");
-    document.getElementsByClassName("textSentence")[0].textContent = "";
-
-    if (Ans)
-        document.getElementsByClassName("correct")[0].classList.add("hide");
-    else
-        document.getElementsByClassName("wrong")[0].classList.add("hide");
-
-    wordsUptillNow = 0;
-    Ans = false;
+    ans = false;
+    $(".wrong").removeClass("hide");
 }
 
 function checkWord(sentence) {
@@ -73,3 +29,41 @@ function checkWord(sentence) {
     else
         wrongAns();
 }
+
+$(".word").click(function () {
+
+    if (wordsUptillNow < totalWords)
+        addWord($(this).text());
+
+    $(this).prop("disabled", true);
+})
+
+$(".checkButton").click(function () {
+
+    $(this).prop("disabled", true);
+
+    if (wordsUptillNow == totalWords) {
+        var sentence = $(".textSentence").text();
+        checkWord(sentence);
+    } else {
+        wrongAns();
+    }
+
+    $(".refresh").removeClass("hide");
+})
+
+$(".refresh").click(function () {
+
+    $(".word").prop("disabled", false);
+    $(".checkButton").prop("disabled", false);
+    $(".refresh").addClass("hide");
+    $(".textSentence").text("");
+
+    if (ans)
+        $(".correct").addClass("hide");
+    else
+        $(".wrong").addClass("hide");
+
+    wordsUptillNow = 0;
+    ans = false;
+})
