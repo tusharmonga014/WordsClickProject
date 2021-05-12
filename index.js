@@ -20,6 +20,7 @@ for (var i = 0; i < words.length; i++) {
     words[i].addEventListener("click", function () {
         if (wordsUptillNow < words.length)
             addWord(this.textContent);
+        this.disabled = true;
     })
 }
 
@@ -44,8 +45,12 @@ function wrongAns() {
 
 function refresh() {
 
+    for (var i = 0; i < words.length; i++) {
+        words[i].disabled = false;
+    }
+
     document.getElementsByClassName("checkButton")[0].disabled = false;
-    
+
     document.getElementsByClassName("refresh")[0].classList.add("hide");
     document.getElementsByClassName("textSentence")[0].textContent = "";
 
